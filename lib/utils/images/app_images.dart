@@ -1,6 +1,6 @@
 class AppImages {
   // lottie
-  static const String splashLottie = "assets/lottie/splash.json";
+  static const String splashLottie = "assets/lottie/lottie.json";
 
   // icons
   static const String search = "assets/icons/search.svg";

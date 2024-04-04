@@ -4,7 +4,6 @@ import 'package:note_app/screens/detail_screen/detail_screen.dart';
 import 'package:note_app/utils/styles/app_text_style.dart';
 
 class MySearchDelegate extends SearchDelegate<String> {
-
   final List<String> data;
   final List<NotesModel> notes;
 
@@ -12,6 +11,9 @@ class MySearchDelegate extends SearchDelegate<String> {
     this.data,
     this.notes,
   );
+
+  // late NotesModel notesModel;
+  int i = 0;
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -37,12 +39,21 @@ class MySearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    final results = data.where((element) => element.contains(query)).toList();
+    final results =
+        data.where((element) => element.contains(query.toLowerCase())).toList();
     return ListView.builder(
       itemCount: results.length,
       itemBuilder: (context, index) => ListTile(
         title: Text(results[index]),
         onTap: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailScreen(
+                notesModel: notes[index],
+              ),
+            ),
+          );
           close(context, results[index]);
           debugPrint(
             notes[index].noteText,
@@ -65,13 +76,18 @@ class MySearchDelegate extends SearchDelegate<String> {
           style: AppTextStyle.interBold.copyWith(color: Colors.white),
         ),
         onTap: () {
+          i = index;
+          // for (int i = 0; i < notes.length; i++) {
+          //   if (notes[i].noteText == query) {
+          //     notesModel = notes[i];
+          //   }
+          // }
           query = suggestionList[index];
-          showResults(context);
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) => DetailScreen(
-                notesModel: notes[index],
+                notesModel: notes[i],
               ),
             ),
           );

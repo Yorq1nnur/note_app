@@ -120,7 +120,7 @@ class GlobalScreen extends StatelessWidget {
           } else if (state is NotesSuccessState) {
             List<String> searchNotes = [];
             for (int i = 0; i < state.notesList.length; i++) {
-              searchNotes.add(state.notesList[i].noteText);
+              searchNotes.add(state.notesList[i].noteText.toLowerCase());
             }
             return Scaffold(
               appBar: AppBar(
@@ -141,7 +141,6 @@ class GlobalScreen extends StatelessWidget {
                     child: GlobalButtonHome(
                       () async {
                         final result = await showSearch(
-
                           context: context,
                           delegate:
                               MySearchDelegate(searchNotes, state.notesList),
