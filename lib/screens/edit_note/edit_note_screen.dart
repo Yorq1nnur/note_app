@@ -14,11 +14,9 @@ class EditNoteScreen extends StatefulWidget {
   const EditNoteScreen({
     super.key,
     required this.notesModel,
-    required this.textEditingController,
   });
 
   final NotesModel notesModel;
-  final TextEditingController textEditingController;
 
   @override
   State<EditNoteScreen> createState() => _EditNoteScreenState();
@@ -101,9 +99,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
                         fontSize: 24.sp,
                         fontWeight: FontWeight.w400,
                       ),
-                      controller: title == ''
-                          ? widget.textEditingController
-                          : _textController,
+                      controller: _textController,
                       maxLines: 10000000,
                     )
                   ],

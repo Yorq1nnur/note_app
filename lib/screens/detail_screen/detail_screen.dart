@@ -63,7 +63,6 @@ class _DetailScreenState extends State<DetailScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => EditNoteScreen(
-                            textEditingController: _textController,
                             notesModel: widget.notesModel,
                           ),
                         ),
