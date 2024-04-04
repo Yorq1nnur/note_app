@@ -22,7 +22,11 @@ class GlobalButtonHome extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.w),
         ),
         child: Center(
-          child: SvgPicture.asset(iconPath, height: 24.h, width: 24.w,),
+          child: SvgPicture.asset(
+            iconPath,
+            height: 24.h,
+            width: 24.w,
+          ),
         ),
       ),
     );
