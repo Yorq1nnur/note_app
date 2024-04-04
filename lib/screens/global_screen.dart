@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
+import 'package:note_app/blocks/notes/notes_event.dart';
 import 'package:note_app/screens/global_widgets/home_button.dart';
 import 'package:note_app/utils/colors/app_colors.dart';
 import 'package:note_app/utils/images/app_images.dart';
@@ -10,6 +12,7 @@ import '../blocks/notes/notes_state.dart';
 import '../data/models/notes_model.dart';
 import '../local_data_base/local_db.dart';
 import '../utils/styles/app_text_style.dart';
+import 'add_note/add_note_screen.dart';
 
 class GlobalScreen extends StatelessWidget {
   const GlobalScreen({super.key});
@@ -162,30 +165,131 @@ class GlobalScreen extends StatelessWidget {
                         children: [
                           ...List.generate(
                             state.notesList.length,
-                            (index) => Container(
-                              width: double.infinity,
+                            (index) => Padding(
                               padding: EdgeInsets.symmetric(
-                                vertical: 21.h,
-                                horizontal: 45.w,
-                              ),
-                              margin: EdgeInsets.symmetric(
                                 vertical: 12.h,
                               ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                  12.w,
-                                ),
-                                color: Color(
-                                  int.parse(
-                                    state.notesList[index].noteColor,
+                              child: Ink(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                    12.w,
+                                  ),
+                                  color: Color(
+                                    int.parse(
+                                      state.notesList[index].noteColor!,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              child: Text(
-                                state.notesList[index].noteText,
-                                style: TextStyle(
-                                  fontSize: 25.w,
-                                  color: Colors.black,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(
+                                    12.r,
+                                  ),
+                                  onLongPress: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          backgroundColor: Colors.red,
+                                          title: Text(
+                                            'WARNING!!!',
+                                            style:
+                                                AppTextStyle.interBold.copyWith(
+                                              color: Colors.white,
+                                              fontSize: 20.sp,
+                                              fontWeight: FontWeight.w900,
+                                            ),
+                                          ),
+                                          content: Text(
+                                            'CONFIRM TO DELETE?',
+                                            style:
+                                                AppTextStyle.interBold.copyWith(
+                                              color: Colors.white,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          actions: <Widget>[
+                                            ZoomTapAnimation(
+                                              onTap: () {
+                                                context.read<NotesBloc>().add(
+                                                      DeleteNotesEvent(
+                                                        notesModel: state
+                                                            .notesList[index],
+                                                      ),
+                                                    );
+                                                Navigator.pop(context);
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: 10.w,
+                                                  vertical: 10.h,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.tealAccent,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                    20.r,
+                                                  ),
+                                                ),
+                                                child: Text(
+                                                  'YES',
+                                                  style: AppTextStyle.interBold
+                                                      .copyWith(
+                                                    color: Colors.black,
+                                                    fontSize: 24.sp,
+                                                    fontWeight: FontWeight.w900,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            ZoomTapAnimation(
+                                              onTap: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: 10.w,
+                                                  vertical: 10.h,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.tealAccent,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                    20.r,
+                                                  ),
+                                                ),
+                                                child: Text(
+                                                  'NO',
+                                                  style: AppTextStyle.interBold
+                                                      .copyWith(
+                                                    color: Colors.black,
+                                                    fontSize: 24.sp,
+                                                    fontWeight: FontWeight.w900,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 21.h,
+                                        horizontal: 45.w,
+                                      ),
+                                      child: Text(
+                                        state.notesList[index].noteText,
+                                        style: TextStyle(
+                                          fontSize: 25.w,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -218,7 +322,14 @@ class GlobalScreen extends StatelessWidget {
                       size: 48.w,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AddNoteScreen(),
+                      ),
+                    );
+                  },
                 ),
               ),
             );

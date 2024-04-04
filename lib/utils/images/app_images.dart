@@ -4,6 +4,9 @@ class AppImages {
 
   // icons
   static const String search = "assets/icons/search.svg";
+  static const String eye = "assets/icons/eye.svg";
+  static const String save = "assets/icons/save.svg";
+  static const String arrowBack = "assets/icons/arrow_back.svg";
   static const String info = "assets/icons/info.svg";
 
   //images

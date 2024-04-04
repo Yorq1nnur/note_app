@@ -7,13 +7,13 @@ class NotesModel {
   final int? id;
   final String noteText;
   final String createdDate;
-  final String noteColor;
+  final String? noteColor;
 
   NotesModel({
     this.id,
     required this.noteText,
     required this.createdDate,
-    required this.noteColor,
+    this.noteColor,
   });
 
   factory NotesModel.fromJson(Map<String, dynamic> json) {
