@@ -1,23 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:note_app/blocks/notes/notes_block.dart';
-import 'package:note_app/blocks/notes/notes_event.dart';
-import 'package:note_app/data/models/notes_model.dart';
 import 'package:note_app/screens/global_widgets/home_button.dart';
 import 'package:note_app/utils/colors/app_colors.dart';
 import 'package:note_app/utils/images/app_images.dart';
 import 'package:note_app/utils/styles/app_text_style.dart';
 
-class AddNoteScreen extends StatefulWidget {
-  const AddNoteScreen({super.key});
+class DetailScreen extends StatefulWidget {
+  const DetailScreen({super.key});
 
   @override
-  State<AddNoteScreen> createState() => _AddNoteScreenState();
+  State<DetailScreen> createState() => _DetailScreenState();
 }
 
-class _AddNoteScreenState extends State<AddNoteScreen> {
+class _DetailScreenState extends State<DetailScreen> {
   final TextEditingController _textController = TextEditingController();
 
   @override
@@ -50,41 +45,14 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                     AppImages.arrowBack,
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 25.h,
-                      ),
-                      child: GlobalButtonHome(
-                        () {},
-                        AppImages.eye,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 25.w,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 25.h,
-                      ),
-                      child: GlobalButtonHome(
-                        () {
-                          context.read<NotesBloc>().add(
-                                InsertNotesEvent(
-                                  noteModel: NotesModel(
-                                    noteText: _textController.text,
-                                    createdDate: DateTime.now().toString(),
-                                  ),
-                                ),
-                              );
-                          Navigator.pop(context);
-                        },
-                        AppImages.save,
-                      ),
-                    ),
-                  ],
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 25.h,
+                  ),
+                  child: GlobalButtonHome(
+                    () {},
+                    AppImages.edit,
+                  ),
                 ),
               ],
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:note_app/screens/search/search_screen.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import 'package:note_app/blocks/notes/notes_event.dart';
 import 'package:note_app/screens/global_widgets/home_button.dart';
@@ -119,6 +120,10 @@ class GlobalScreen extends StatelessWidget {
               ),
             );
           } else if (state is NotesSuccessState) {
+            List<String> searchNotes = [];
+            for (int i = 0; i < state.notesList.length; i++) {
+              searchNotes.add(state.notesList[i].noteText);
+            }
             return Scaffold(
               appBar: AppBar(
                 elevation: 0,
@@ -136,7 +141,15 @@ class GlobalScreen extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(top: 25.h, bottom: 25.h),
                     child: GlobalButtonHome(
-                      () {},
+                      () async {
+                        final result = await showSearch(
+                          context: context,
+                          delegate: MySearchDelegate(searchNotes, state.notesList),
+                        );
+                        if (result != null) {
+                          debugPrint('Selected item: $result');
+                        }
+                      },
                       AppImages.search,
                     ),
                   ),
