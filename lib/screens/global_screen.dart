@@ -10,8 +10,6 @@ import 'package:note_app/utils/colors/app_colors.dart';
 import 'package:note_app/utils/images/app_images.dart';
 import '../blocks/notes/notes_block.dart';
 import '../blocks/notes/notes_state.dart';
-import '../data/models/notes_model.dart';
-import '../local_data_base/local_db.dart';
 import '../utils/styles/app_text_style.dart';
 import 'add_note/add_note_screen.dart';
 
@@ -108,11 +106,10 @@ class GlobalScreen extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    LocalDatabase.insertNote(
-                      NotesModel(
-                        noteText: 'noteText',
-                        createdDate: 'createdDate',
-                        noteColor: '0xFFFFFFFF',
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AddNoteScreen(),
                       ),
                     );
                   },
@@ -144,7 +141,8 @@ class GlobalScreen extends StatelessWidget {
                       () async {
                         final result = await showSearch(
                           context: context,
-                          delegate: MySearchDelegate(searchNotes, state.notesList),
+                          delegate:
+                              MySearchDelegate(searchNotes, state.notesList),
                         );
                         if (result != null) {
                           debugPrint('Selected item: $result');
@@ -405,7 +403,14 @@ class GlobalScreen extends StatelessWidget {
                     size: 48.w,
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AddNoteScreen(),
+                    ),
+                  );
+                },
               ),
             ),
           );
