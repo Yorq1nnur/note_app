@@ -30,13 +30,11 @@ class NotesModel {
   NotesModel copyWith({
     int? id,
     String? noteText,
-    String? noteColor,
     String? createdDate,
   }) {
     return NotesModel(
       id: id ?? this.id,
       noteText: noteText ?? this.noteText,
-      noteColor: _getRandomColor().value.toString(),
       createdDate: createdDate ?? this.createdDate,
     );
   }
@@ -44,28 +42,22 @@ class NotesModel {
   Map<String, dynamic> toJson() {
     return {
       NotesModelConstants.title: noteText,
-      NotesModelConstants.color: noteColor,
+      NotesModelConstants.color: _getRandomColor().value.toString(),
       NotesModelConstants.date: createdDate.toString(),
     };
   }
 }
 
 Color _getRandomColor() {
-  // Ranglar o'rtacha boshlang'ich qiymatlari
   int red = Random().nextInt(255);
   int green = Random().nextInt(255);
   int blue = Random().nextInt(255);
 
-  // Black va grey ranglarni tekshiramiz
   if (red == 0 && green == 0 && blue == 0) {
-    // Agar rang oq bo'lsa, 1 qo'shamiz
     red++;
   }
   if (red == 128 && green == 128 && blue == 128) {
-    // Agar rang kulrang bo'lsa, 1 qo'shamiz
     red++;
   }
-
-  // Yangi rangni qaytarish
   return Color.fromRGBO(red, green, blue, 1.0);
 }

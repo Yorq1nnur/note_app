@@ -9,10 +9,10 @@ import 'package:note_app/blocks/notes/notes_event.dart';
 import 'package:note_app/screens/global_widgets/home_button.dart';
 import 'package:note_app/utils/colors/app_colors.dart';
 import 'package:note_app/utils/images/app_images.dart';
-import '../blocks/notes/notes_block.dart';
-import '../blocks/notes/notes_state.dart';
-import '../utils/styles/app_text_style.dart';
-import 'add_note/add_note_screen.dart';
+import '../../blocks/notes/notes_block.dart';
+import '../../blocks/notes/notes_state.dart';
+import '../../utils/styles/app_text_style.dart';
+import '../add_note/add_note_screen.dart';
 
 class GlobalScreen extends StatelessWidget {
   const GlobalScreen({super.key});
@@ -141,6 +141,7 @@ class GlobalScreen extends StatelessWidget {
                     child: GlobalButtonHome(
                       () async {
                         final result = await showSearch(
+
                           context: context,
                           delegate:
                               MySearchDelegate(searchNotes, state.notesList),

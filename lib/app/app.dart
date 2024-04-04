@@ -5,7 +5,7 @@ import 'package:note_app/utils/colors/app_colors.dart';
 
 import '../blocks/notes/notes_block.dart';
 import '../blocks/notes/notes_event.dart';
-import '../screens/global_screen.dart';
+import '../screens/global_screen/global_screen.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -37,6 +37,9 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
+            appBarTheme: const AppBarTheme(
+              backgroundColor: AppColors.c252525,
+            ),
             scaffoldBackgroundColor: AppColors.c252525,
             useMaterial3: false,
           ),

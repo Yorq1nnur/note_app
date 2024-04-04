@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/data/models/notes_model.dart';
+import 'package:note_app/screens/detail_screen/detail_screen.dart';
 import 'package:note_app/utils/styles/app_text_style.dart';
 
 class MySearchDelegate extends SearchDelegate<String> {
+
   final List<String> data;
   final List<NotesModel> notes;
 
@@ -13,7 +15,6 @@ class MySearchDelegate extends SearchDelegate<String> {
 
   @override
   List<Widget> buildActions(BuildContext context) {
-
     return [
       IconButton(
         onPressed: () {
@@ -66,6 +67,14 @@ class MySearchDelegate extends SearchDelegate<String> {
         onTap: () {
           query = suggestionList[index];
           showResults(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailScreen(
+                notesModel: notes[index],
+              ),
+            ),
+          );
         },
       ),
     );
