@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -79,115 +78,85 @@ class GlobalScreen extends StatelessWidget {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 40.h,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Notes",
-                        style: TextStyle(
-                          fontSize: 40.w,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                  state.notesList.isEmpty
-                      ? Align(
-                          alignment: Alignment.center,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height: 170.h,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ...List.generate(
+                          state.notesList.length,
+                          (index) => Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.symmetric(
+                              vertical: 21.h,
+                              horizontal: 45.w,
+                            ),
+                            margin: EdgeInsets.symmetric(
+                              vertical: 12.h,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                12.w,
                               ),
-                              Image.asset(AppImages.rafiki),
-                              Text(
-                                "Create your first note !",
-                                style: TextStyle(
-                                  fontSize: 20.w,
-                                  color: Colors.white,
+                              color: Color(
+                                int.parse(
+                                  state.notesList[index].noteColor,
                                 ),
                               ),
-                            ],
-                          ),
-                        )
-                      : Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24.w),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ...List.generate(
-                                state.notesList.length,
-                                (index) => Container(
-                                  width: double.infinity,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 21.h, horizontal: 45.w),
-                                  margin: EdgeInsets.symmetric(vertical: 12.h),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12.w),
-                                    color: _randomColor(),
-                                  ),
-                                  child: Text(
-                                    state.notesList[index].noteText,
-                                    style: TextStyle(
-                                      fontSize: 25.w,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
+                            ),
+                            child: Text(
+                              state.notesList[index].noteText,
+                              style: TextStyle(
+                                fontSize: 25.w,
+                                color: Colors.black,
                               ),
-                            ],
+                            ),
                           ),
                         ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             );
           }
           return const SizedBox();
         }),
-        floatingActionButton: Container(
-          decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(
-                .4,
-              ),
-              blurRadius: 10.r,
-              offset: Offset(-5.w, 5.w),
-            )
-          ]),
-          child: FloatingActionButton(
-            backgroundColor: AppColors.c252525,
-            child: Center(
-              child: Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 48.w,
-              ),
-            ),
-            onPressed: () {
-              LocalDatabase.insertNote(
-                NotesModel(
-                  noteText: 'noteText',
-                  createdDate: 'createdDate',
-                  noteColor: '0xFFFFFFFF',
-                ),
-              );
-            },
-          ),
-        ),
       ),
     );
   }
 }
 
-Color _randomColor() {
-  final random = Random();
-  return Color.fromARGB(
-    255,
-    random.nextInt(256),
-    random.nextInt(256),
-    random.nextInt(256),
-  );
-}
+// floatingActionButton: Container(
+//   decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
+//     BoxShadow(
+//       color: Colors.black.withOpacity(
+//         .4,
+//       ),
+//       blurRadius: 10.r,
+//       offset: Offset(
+//         -5.w,
+//         5.w,
+//       ),
+//     )
+//   ]),
+//   child: FloatingActionButton(
+//     backgroundColor: AppColors.c252525,
+//     child: Center(
+//       child: Icon(
+//         Icons.add,
+//         color: Colors.white,
+//         size: 48.w,
+//       ),
+//     ),
+//     onPressed: () {
+//       LocalDatabase.insertNote(
+//         NotesModel(
+//           noteText: 'noteText',
+//           createdDate: 'createdDate',
+//           noteColor: '0xFFFFFFFF',
+//         ),
+//       );
+//     },
+//   ),
+// ),
