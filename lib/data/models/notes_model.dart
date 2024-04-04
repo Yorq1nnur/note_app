@@ -18,9 +18,11 @@ class NotesModel {
 
   factory NotesModel.fromJson(Map<String, dynamic> json) {
     return NotesModel(
-      noteText: json[NotesModelConstants.title] as String? ??"IT'S NULL VALUE",
-      createdDate: json[NotesModelConstants.date] as String? ??"IT'S NULL VALUE",
-      noteColor: json[NotesModelConstants.color] as String? ??"IT'S NULL VALUE",
+      noteText: json[NotesModelConstants.title] as String? ?? "IT'S NULL VALUE",
+      createdDate:
+          json[NotesModelConstants.date] as String? ?? "IT'S NULL VALUE",
+      noteColor:
+          json[NotesModelConstants.color] as String? ?? "IT'S NULL VALUE",
       id: json[NotesModelConstants.id] as int? ?? 0,
     );
   }
@@ -32,6 +34,7 @@ class NotesModel {
     String? createdDate,
   }) {
     return NotesModel(
+      id: id ?? this.id,
       noteText: noteText ?? this.noteText,
       noteColor: _getRandomColor().value.toString(),
       createdDate: createdDate ?? this.createdDate,
@@ -41,7 +44,7 @@ class NotesModel {
   Map<String, dynamic> toJson() {
     return {
       NotesModelConstants.title: noteText,
-      NotesModelConstants.color: _getRandomColor().value.toString(),
+      NotesModelConstants.color: noteColor,
       NotesModelConstants.date: createdDate.toString(),
     };
   }

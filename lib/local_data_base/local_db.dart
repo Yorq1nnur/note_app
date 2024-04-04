@@ -1,6 +1,6 @@
+import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:note_app/local_data_base/notes_model_constants.dart';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import '../data/models/notes_model.dart';
 
@@ -46,16 +46,32 @@ class LocalDatabase {
   )''');
   }
 
-
   static Future<NotesModel> insertNote(NotesModel noteModel) async {
     debugPrint("INITIAL ID:${noteModel.id}");
 
     final db = await databaseInstance.database;
-    int savedNoteID = await db.insert(NotesModelConstants.tableName, noteModel.toJson());
+    int savedNoteID =
+        await db.insert(NotesModelConstants.tableName, noteModel.toJson());
 
     debugPrint("SAVED ID:$savedNoteID");
 
     return noteModel.copyWith(id: savedNoteID);
+  }
+
+  static Future<int> updateNote(
+      NotesModel notesModel,
+      int id,
+      ) async {
+    debugPrint("UPDATE: ${notesModel.toJson()} ${notesModel.id}");
+
+    final db = await databaseInstance.database;
+    int updatedTaskId = await db.update(
+      NotesModelConstants.tableName,
+      notesModel.toJson(),
+      where: "${NotesModelConstants.id} = ?",
+      whereArgs: [id],
+    );
+    return updatedTaskId;
   }
 
   static Future<List<NotesModel>> getAllNote() async {

@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:note_app/data/models/notes_model.dart';
+import 'package:note_app/screens/edit_note/edit_note_screen.dart';
 import 'package:note_app/screens/global_widgets/home_button.dart';
 import 'package:note_app/utils/colors/app_colors.dart';
 import 'package:note_app/utils/images/app_images.dart';
 import 'package:note_app/utils/styles/app_text_style.dart';
 
 class DetailScreen extends StatefulWidget {
-  const DetailScreen({super.key});
+  const DetailScreen({
+    super.key,
+    required this.notesModel,
+  });
+
+  final NotesModel notesModel;
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -23,6 +30,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _textController.text = widget.notesModel.noteText;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -31,9 +39,6 @@ class _DetailScreenState extends State<DetailScreen> {
         ),
         child: Column(
           children: [
-            SizedBox(
-              height: 40.h,
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -53,7 +58,17 @@ class _DetailScreenState extends State<DetailScreen> {
                     vertical: 25.h,
                   ),
                   child: GlobalButtonHome(
-                    () {},
+                    () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditNoteScreen(
+                            textEditingController: _textController,
+                            notesModel: widget.notesModel,
+                          ),
+                        ),
+                      );
+                    },
                     AppImages.edit,
                   ),
                 ),
@@ -66,44 +81,18 @@ class _DetailScreenState extends State<DetailScreen> {
                 child: Column(
                   children: [
                     TextField(
+                      enabled: false,
                       style: AppTextStyle.interBold.copyWith(
                         color: AppColors.c9A9A9A,
                         fontSize: 24.sp,
                         fontWeight: FontWeight.w400,
                       ),
                       controller: _textController,
-                      maxLines: 100,
+                      maxLines: 100000,
                     )
                   ],
                 ),
               ),
-            ),
-            const Spacer(),
-            TextField(
-              style: AppTextStyle.interBold.copyWith(
-                color: AppColors.c9A9A9A,
-                fontSize: 23.sp,
-                fontWeight: FontWeight.w400,
-              ),
-              onSubmitted: (v) {
-                setState(() {});
-              },
-              onChanged: (v) {
-                setState(() {});
-              },
-              controller: _textController,
-              decoration: InputDecoration(
-                  border: const OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColors.c252525)),
-                  labelText: 'Type something...',
-                  labelStyle: AppTextStyle.interBold.copyWith(
-                    color: AppColors.c9A9A9A,
-                    fontSize: 23.sp,
-                    fontWeight: FontWeight.w400,
-                  )),
-            ),
-            SizedBox(
-              height: 20.h,
             ),
           ],
         ),

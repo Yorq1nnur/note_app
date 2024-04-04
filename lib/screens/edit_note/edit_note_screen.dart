@@ -4,19 +4,27 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:note_app/blocks/notes/notes_block.dart';
 import 'package:note_app/blocks/notes/notes_event.dart';
 import 'package:note_app/data/models/notes_model.dart';
+import 'package:note_app/local_data_base/local_db.dart';
 import 'package:note_app/screens/global_widgets/home_button.dart';
 import 'package:note_app/utils/colors/app_colors.dart';
 import 'package:note_app/utils/images/app_images.dart';
 import 'package:note_app/utils/styles/app_text_style.dart';
 
-class AddNoteScreen extends StatefulWidget {
-  const AddNoteScreen({super.key});
+class EditNoteScreen extends StatefulWidget {
+  const EditNoteScreen({
+    super.key,
+    required this.notesModel,
+    required this.textEditingController,
+  });
+
+  final NotesModel notesModel;
+  final TextEditingController textEditingController;
 
   @override
-  State<AddNoteScreen> createState() => _AddNoteScreenState();
+  State<EditNoteScreen> createState() => _EditNoteScreenState();
 }
 
-class _AddNoteScreenState extends State<AddNoteScreen> {
+class _EditNoteScreenState extends State<EditNoteScreen> {
   final TextEditingController _textController = TextEditingController();
 
   @override
@@ -24,6 +32,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
     _textController.dispose();
     super.dispose();
   }
+
+  String title = '';
 
   @override
   Widget build(BuildContext context) {
@@ -49,41 +59,32 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                     AppImages.arrowBack,
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 25.h,
-                      ),
-                      child: GlobalButtonHome(
-                        () {},
-                        AppImages.eye,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 25.w,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 25.h,
-                      ),
-                      child: GlobalButtonHome(
-                        () {
-                          context.read<NotesBloc>().add(
-                                InsertNotesEvent(
-                                  noteModel: NotesModel(
-                                    noteText: _textController.text,
-                                    createdDate: DateTime.now().toString(),
-                                  ),
-                                ),
-                              );
-                          Navigator.pop(context);
-                        },
-                        AppImages.save,
-                      ),
-                    ),
-                  ],
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 25.h,
+                  ),
+                  child: GlobalButtonHome(
+                    () async {
+                      await LocalDatabase.updateNote(
+                        widget.notesModel.copyWith(
+                          id: widget.notesModel.id,
+                          noteText: title == ''
+                              ? widget.notesModel.noteText
+                              : _textController.text,
+                          createdDate: title == ''
+                              ? widget.notesModel.createdDate
+                              : DateTime.now().toString(),
+                        ),
+                        widget.notesModel.id!,
+                      );
+
+                      if (context.mounted) {
+                        context.read<NotesBloc>().add(GetNotesEvent());
+                        Navigator.pop(context);
+                      }
+                    },
+                    AppImages.save,
+                  ),
                 ),
               ],
             ),
@@ -100,7 +101,9 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                         fontSize: 24.sp,
                         fontWeight: FontWeight.w400,
                       ),
-                      controller: _textController,
+                      controller: title == ''
+                          ? widget.textEditingController
+                          : _textController,
                       maxLines: 10000000,
                     )
                   ],
@@ -115,9 +118,11 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                 fontWeight: FontWeight.w400,
               ),
               onSubmitted: (v) {
+                title = v;
                 setState(() {});
               },
               onChanged: (v) {
+                title = v;
                 setState(() {});
               },
               controller: _textController,

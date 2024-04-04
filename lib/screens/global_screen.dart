@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:note_app/screens/detail_screen/detail_screen.dart';
 import 'package:note_app/screens/search/search_screen.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import 'package:note_app/blocks/notes/notes_event.dart';
@@ -196,6 +197,16 @@ class GlobalScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(
                                     12.r,
                                   ),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailScreen(
+                                          notesModel: state.notesList[index],
+                                        ),
+                                      ),
+                                    );
+                                  },
                                   onLongPress: () {
                                     showDialog(
                                       context: context,
