@@ -1,11 +1,14 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:note_app/screens/global_widgets/home_button.dart';
 import 'package:note_app/utils/colors/app_colors.dart';
 import 'package:note_app/utils/images/app_images.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import '../blocks/notes/notes_block.dart';
 import '../blocks/notes/notes_state.dart';
 import '../data/models/notes_model.dart';

@@ -6,7 +6,7 @@ import 'notes_state.dart';
 
 class NotesBloc extends Bloc<NotesEvent, NotesState> {
   NotesBloc() : super(NotesInitialState()) {
-    on<GetNotesEvent>(getNotes);
+    on<GetNotesEvent>(_getNotes);
     on<DeleteNotesEvent>(_deleteNote);
     on<InsertNotesEvent>(_insertNote);
   }
@@ -34,7 +34,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     add(GetNotesEvent());
   }
 
-  Future<void> getNotes(
+  Future<void> _getNotes(
     GetNotesEvent event,
     Emitter<NotesState> emit,
   ) async {
